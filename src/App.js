@@ -13,8 +13,8 @@ function App() {
   const[oB200, setOB200] = React.useState(0);
   const[oB100, setOB100] = React.useState(0);
   const[oB50, setOB50] = React.useState(0);
-  
 
+  //Dinero disponible
   const[newCash,setNewCash] = React.useState(0);
   const[cash,setCash] = React.useState(aB500*500 + aB200*200 + aB100*100 + aB50*50);
 
@@ -33,29 +33,33 @@ function App() {
 
 //logica del cajero
   const outMoney = (outCash) => { 
-    const availableCash = cash - outCash;
-    setCash(availableCash);
-    //*? Iterando manualmente dado que el useState guarda el estados despues de correr todo el evento y se obtenia un click de retraso en el cambio
-    const select500 = parseInt(outCash / 500);
-    setOB500(select500);
+    if (parseInt(outCash) > parseInt(cash)){
+      alert("No cuento con los billetes necesario para esa cantidad")
+    } else if ( outCash % 50 != 0){
+      alert("No cuento con los billetes necesario para esa cantidad")
+    } else {
+      const availableCash = cash - outCash;
+      setCash(availableCash);
+      //*? Iterando manualmente dado que el useState guarda el estados despues de correr todo el evento y se obtenia un click de retraso en el cambio
+      const select500 = parseInt(outCash / 500);
+      setOB500(select500);
 
-    const select200 = parseInt((outCash - 500*select500) / 200);
-    setOB200(select200)
+      const select200 = parseInt((outCash - 500*select500) / 200);
+      setOB200(select200)
 
-    const select100 = parseInt((outCash - 200*select200 - 500*select500)/ 100);
-    setOB100(select100)
+      const select100 = parseInt((outCash - 200*select200 - 500*select500)/ 100);
+      setOB100(select100)
 
-    const select50 = parseInt((outCash - 100*select100 - 200*select200 - 500*select500)/50);
-    setOB50(select50)
+      const select50 = parseInt((outCash - 100*select100 - 200*select200 - 500*select500)/50);
+      setOB50(select50)
 
-    setAB500(parseInt(aB500 - select500));
-    setAB200(parseInt(aB200 - select200));
-    setAB100(parseInt(aB100 - select100));
-    setAB50(parseInt(aB50 - select50));
-
-    console.log(2000%500)
+      setAB500(parseInt(aB500 - select500));
+      setAB200(parseInt(aB200 - select200));
+      setAB100(parseInt(aB100 - select100));
+      setAB50(parseInt(aB50 - select50));
+    }
+    
 };
-
 
   return (
     <form onSubmit={onSubmit}>
@@ -68,7 +72,6 @@ function App() {
 
       <label> Efectivo a retirar </label>
       <input 
-      // value={cash}
       onChange = {onChange}
       placeholder='Solo enteros'
       type="submmit" >
@@ -83,8 +86,6 @@ function App() {
       <p>{"50: " + oB50 }</p>
 
     </form>
-      
   );
 }
-
 export default App;
