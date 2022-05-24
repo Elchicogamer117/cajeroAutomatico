@@ -23,37 +23,33 @@ function App() {
     setNewCash(event.target.value)
     console.log(setCash)
   }
-  //guardar el nombre en una variable
+  //guardar el valor en una variable
   const onSubmit = (event) => {
     event.preventDefault();
     let outCash = newCash;
     console.log(newCash);
-    availableMoney(outCash);
+    outMoney(outCash);
 };
 
+//logica del cajero
+  const outMoney = (outCash) => { 
+    const availableCash = cash - outCash;
 
-const availableMoney = (outCash) => { 
-  setOB500(parseInt((outCash / 500)));
+    setCash(availableCash);
 
-  outCash = (outCash - (setOB500 * 500));
-  setAB500(aB500 - setOB500);
+    setOB500(parseInt((outCash / 500)));
+    setOB200(parseInt(((outCash % 500) / 200)))
+    setOB100(parseInt((outCash % 200 / 100)));
+    setOB50(parseInt((outCash % 100 / 50)));
+    
+    setAB500(parseInt(aB500 - parseInt((outCash / 500))));
+    setAB200(parseInt(aB200 - parseInt((outCash % 500 / 200))));
+    setAB100(parseInt(aB100 - parseInt((outCash % 200 / 100))));
+    setAB50(parseInt(aB50 - parseInt((outCash % 100 / 50))));
 
-  setOB200(parseInt((outCash / 200)))
-  outCash = (outCash - (setOB200 * 200));
-  setAB200(aB200 - setOB200);
+    console.log(2000%500)
+};
 
-  setOB100(parseInt((outCash / 100)));
-  outCash = (outCash - (setOB100 * 100));
-  setAB100(aB100 - setOB100);
-  
-  setOB50(parseInt((outCash / 100)));
-  outCash = (outCash - (setOB50 * 50));
-  setAB50(aB50 - setOB50);
-
- 
-  let avalilableMoney = cash - outCash;
-  setCash(avalilableMoney);
-}
 
   return (
     <form onSubmit={onSubmit}>
